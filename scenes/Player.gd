@@ -10,6 +10,7 @@ var velocity = Vector2()
 var jumps = 0
 
 func get_input():
+	var animation = "diri_kanan"
 	velocity.x = 0
 
 	if is_on_floor():
@@ -17,10 +18,18 @@ func get_input():
 	if Input.is_action_just_pressed("ui_up") and jumps < 2:
 		velocity.y = jump_speed
 		jumps += 1
+		animation = "lompat"
 	if Input.is_action_pressed('ui_right'):
 		velocity.x += speed
+		animation = "jalan_kanan"
+		$AnimatedSprite.flip_h = false		
 	if Input.is_action_pressed('ui_left'):
 		velocity.x -= speed
+		animation = "jalan_kanan"
+		$AnimatedSprite.flip_h = true
+		
+	if $AnimatedSprite.animation != animation:
+		$AnimatedSprite.play(animation)
 
 func _physics_process(delta):
 	velocity.y += delta * GRAVITY
